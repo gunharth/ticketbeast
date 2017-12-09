@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -20,5 +22,22 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+    ];
+});
+
+
+$factory->define(App\Concert::class, function (Faker\Generator $faker) {
+
+    return [
+        'title' => 'Example Band',
+        'subtitle' => 'Example Whatever',
+        'date' => Carbon::parse('+2 weeks'),
+        'ticket_price' => 3250,
+        'venue' => 'The Mosch Pit',
+        'venue_address' => '123 Example Road',
+        'city' => 'Laraville',
+        'state' => 'ON',
+        'zip' => '18z76',
+        'additional_information' => 'For tickets call 000',
     ];
 });
