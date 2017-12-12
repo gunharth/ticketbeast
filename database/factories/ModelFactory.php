@@ -27,7 +27,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\Concert::class, function (Faker\Generator $faker) {
-
     return [
         'title' => 'Example Band',
         'subtitle' => 'Example Whatever',
