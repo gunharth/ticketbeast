@@ -8,11 +8,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ViewConcertListignTest extends TestCase
 {
-    
     use DatabaseMigrations;
     
     /** @test */
-    function user_can_view_a_concert_listing()
+    public function user_can_view_a_published_concert_listing()
     {
         // Arrange
         $concert = Concert::create([
@@ -26,12 +25,13 @@ class ViewConcertListignTest extends TestCase
             'state' => 'ON',
             'zip' => '18z76',
             'additional_information' => 'For tickets call 000',
+            'published_at' => Carbon::parse('-1 week'),
         ]);
-
+        
         // Action
         $this->visit('/concerts/'.$concert->id);
-
-        // Assert
+        
+        // Assertion
         $this->see('The Red Chord');
         $this->see('Whatever');
         $this->see('December 16, 2016');
@@ -43,5 +43,17 @@ class ViewConcertListignTest extends TestCase
         $this->see('ON');
         $this->see('18z76');
         $this->see('For tickets call 000');
+    }
+
+    /** @test */
+    public function user_cannot_view_unpublished_concert_listings()
+    {
+        $concert = factory(Concert::class)->create([
+            'published_at' => null
+        ]);
+
+        $this->get('/concerts/'.$concert->id);
+
+        $this->assertResponseStatus(404);
     }
 }
